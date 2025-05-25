@@ -1,0 +1,5 @@
+transformers
+torch
+requests
+pytest
+requests-mock
