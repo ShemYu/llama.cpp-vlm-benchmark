@@ -63,8 +63,12 @@ All configurations are managed in `src/config.py`. Before running the benchmark,
 -   **`LLAMACPP_API_BASE_URL`**: (String) The base URL of your running `llama.cpp` API service.
     *   Example: `"http://localhost:8000"`
 
--   **`LLAMACPP_MODEL_ALIAS`**: (String or None) An optional model alias or specific GGUF model name if your `llama.cpp` server uses it to select among multiple models or needs it in the API request. Set to `None` if your server runs a single model or doesn't require this.
-    *   Example: `"mistral-7b-instruct-v0.1.Q4_K_M.gguf"`
+-   **`LLAMACPP_MODEL_ALIAS`**: (String or None) This setting is crucial for testing GGUF models with the `llama.cpp` runner. It should be set to the **exact filename of the GGUF model** that your `llama.cpp` server is configured to serve (e.g., `"gemma-2-9b-it.Q4_K_M.gguf"`).
+    *   The `llamacpp_runner.py` script will use this alias to request inference from your `llama.cpp` server.
+    *   Ensure your `llama.cpp` server is started and explicitly configured to load and serve the model specified by this alias. Refer to the "Running the `llama.cpp` API Service" section below for server setup examples.
+    *   If your server is serving a single, default model and doesn't require an alias or specific model name in the API request, you might set this to `None`. However, for clarity and explicit GGUF testing, specifying the filename is recommended.
+    *   For comparison, the baseline (Hugging Face) runner uses the `BASELINE_MODEL_NAME` for its tests.
+    *   Example: `"gemma-2-9b-it.Q4_K_M.gguf"`, `"mistral-7b-instruct-v0.1.Q4_K_M.gguf"`
 
 -   **`SHORT_PROMPTS_FILE`**: (String) Path to the file containing short input prompts.
     *   Default: `"data/short_prompts.txt"`
@@ -74,6 +78,11 @@ All configurations are managed in `src/config.py`. Before running the benchmark,
 
 -   **`MAX_NEW_TOKENS_FOR_TTFT`**: (Integer) The number of new tokens to request for TTFT measurement. This should be a small value (e.g., 5-10) as we are primarily interested in how quickly the *first* token is generated.
     *   Default: `10`
+
+-   **Using Gemma Models (e.g., `google/gemma-3-1b-it`)**:
+    *   To use models like Gemma, set the `BASELINE_MODEL_NAME` to the appropriate Hugging Face identifier (e.g., `"google/gemma-3-1b-it"`).
+    *   The `baseline_runner.py` script has been updated to include `trust_remote_code=True` when loading models. This is necessary for some models like Gemma that require custom code execution.
+    *   **Note on Dependencies**: Running Gemma models requires `torch`, `transformers`, and potentially other large libraries. During development, full benchmarking of Gemma was hindered by environment disk space limitations during the installation of these dependencies. Users should ensure they have sufficient disk space and these libraries correctly installed in their environment.
 
 ## Running the `llama.cpp` API Service
 

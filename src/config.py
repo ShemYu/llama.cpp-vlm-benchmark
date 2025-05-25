@@ -3,7 +3,7 @@
 # --- Baseline Model Configuration ---
 # Hugging Face model identifier for the baseline (non-llama.cpp) model
 # Example: "gpt2", "EleutherAI/pythia-70m-deduped"
-BASELINE_MODEL_NAME = "gpt2"
+BASELINE_MODEL_NAME = "google/gemma-3-1b-it"
 
 # --- Llama.cpp API Configuration ---
 # Base URL of your llama.cpp server API
@@ -13,7 +13,7 @@ LLAMACPP_API_BASE_URL = "http://localhost:8000"
 # Optional: Model alias or specific GGUF model name if your llama.cpp server
 # uses it to select among multiple models. Set to None if not needed.
 # Example: "mistral-7b-instruct-v0.1.Q4_K_M.gguf"
-LLAMACPP_MODEL_ALIAS = None # Or specify a model alias string
+LLAMACPP_MODEL_ALIAS = "gemma-2-9b-it.Q4_K_M.gguf" # Or specify a model alias string
 
 # --- Input Data Configuration ---
 # Paths to the prompt files

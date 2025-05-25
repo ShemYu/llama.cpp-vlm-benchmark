@@ -9,7 +9,7 @@ def run_baseline_inference(model_name_or_path: str, prompt: str, max_new_tokens:
     """
     try:
         tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)
-        model = AutoModelForCausalLM.from_pretrained(model_name_or_path)
+        model = AutoModelForCausalLM.from_pretrained(model_name_or_path, trust_remote_code=True)
 
         # Ensure model is on GPU if available, for fair comparison later
         # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
